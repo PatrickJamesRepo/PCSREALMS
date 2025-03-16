@@ -28,8 +28,25 @@ Profit & Addictiveness Strategy:
    - **Liquidity & Incentives:** Reward mechanisms for liquidity providers and staking programs further stabilize the token’s price, enhancing both short-term trading and long-term investment appeal.
    - **Sustainable Revenue:** Ongoing royalties from NFT resales, coupled with continuous in-game economic activity, create a reliable profit stream.
 
+## Screenshots
+
+Below are placeholder images representing key interfaces in PCS REALMS. (Place these PNG files at the root of your project.)
+
+- **wallet.png**s
+  *Wallet Connection Interface* – The screen where players connect their Cardano wallet to verify membership.
+
+- **rtc.png** 
+  *RTC Connector Interface* – The view of the RTC connector used for setting up real-time connectivity.
+
+- **select.png** 
+  *Select Character Screen* – The interface for choosing your character and role.
+
+- **game.png** 
+  *Game Scene* – A snapshot of the main game environment where exploration, resource gathering, and gameplay take place.
+
+
 Summary:
 -------------
-PCS REALMS: The Puurrty Relic Quest is designed to be both addictive and profitable. By blending immersive exploration, strategic crafting, and dynamic role-based gameplay with a robust blockchain-powered economy, the game creates a self-sustaining ecosystem where every action enriches the narrative and drives token value. The dual-token model incentivizes long-term engagement, while community governance and high exchange exposure ensure sustainable, scalable profitability.
+PCS REALMS: The Puurrty Relic Quest is an immersive blockchain adventure that fuses the swashbuckling spirit of pirates with modern digital culture. Explore vibrant lands, master crafty skills, and choose your role—whether as King Puurrty, a daring Puurrty Pirate, or another legendary persona—to shape a world where every relic, every quest, and every resource deepens the story and boosts token value. With a dual-token system that rewards long-term play and community-led governance, you’re set to enjoy real, lasting benefits while building your legacy.
 
-Join King Puurrty, embrace your destiny as a Puurrty Pirate, and preserve a legacy where every relic, every crafted item, and every quest builds the legend of PCS REALMS.
+Join King Puurrty, embrace your inner pirate, and let every relic and crafted masterpiece be a part of your epic journey in PCS REALMS.
