@@ -30,7 +30,7 @@ Profit & Addictiveness Strategy:
 
 ## Screenshots
 
-Below are placeholder images representing key interfaces in PCS REALMS. (Place these PNG files at the root of your project.)
+Below are placeholder images representing key interfaces in PCS REALMS.
 
 - **Wallet Connection Interface**  
   [![Wallet Connection](wallet.png)](wallet.png)
