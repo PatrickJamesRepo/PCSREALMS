@@ -32,17 +32,17 @@ Profit & Addictiveness Strategy:
 
 Below are placeholder images representing key interfaces in PCS REALMS. (Place these PNG files at the root of your project.)
 
-- **wallet.png**s
-  *Wallet Connection Interface* – The screen where players connect their Cardano wallet to verify membership.
+- **Wallet Connection Interface**  
+  [![Wallet Connection](wallet.png)](wallet.png)
 
-- **rtc.png** 
-  *RTC Connector Interface* – The view of the RTC connector used for setting up real-time connectivity.
+- **RTC Connector Interface**  
+  [![RTC Connector](rtc.png)](rtc.png)
 
-- **select.png** 
-  *Select Character Screen* – The interface for choosing your character and role.
+- **Select Character Screen**  
+  [![Select Character](select.png)](select.png)
 
-- **game.png** 
-  *Game Scene* – A snapshot of the main game environment where exploration, resource gathering, and gameplay take place.
+- **Game Scene**  
+  [![Game Scene](game.png)](game.png)
 
 
 Summary:
