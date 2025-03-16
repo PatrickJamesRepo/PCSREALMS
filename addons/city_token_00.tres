@@ -1,0 +1,53 @@
+[gd_resource type="Resource" script_class="Cip68Config" load_steps=8 format=3 uid="uid://g0t36ns1frnc"]
+
+[ext_resource type="Script" path="res://addons/@mlabs-haskell/godot-cardano/src/plutus_data/resource.gd" id="1_y1my2"]
+[ext_resource type="Script" path="res://addons/@mlabs-haskell/godot-cardano/src/cip68/file_details.gd" id="2_ue4b1"]
+[ext_resource type="Script" path="res://addons/@mlabs-haskell/godot-cardano/src/script_resource/script_from_cbor_hex.gd" id="3_fmgxp"]
+[ext_resource type="Script" path="res://addons/@mlabs-haskell/godot-cardano/src/cip68/cip68_config.gd" id="4_hbsgd"]
+
+[sub_resource type="Resource" id="Resource_khed8"]
+script = ExtResource("1_y1my2")
+data_type = 0
+data_int = 0
+data_bytes = PackedByteArray()
+data_as_hex = ""
+data_as_utf8 = ""
+data_cbor_hex = "00"
+data_json = "{
+  \"int\": \"0\"
+}"
+data_json_path = ""
+
+[sub_resource type="Resource" id="Resource_b2m7s"]
+resource_local_to_scene = true
+script = ExtResource("2_ue4b1")
+name = "Tokyo"
+media_type = "image/webp"
+src = "ipfs://QmQ2AX43ic6CfPz2Mq7Z1t45RrTCTwixZR3qVWhprvJEQ6"
+additional_properties = {}
+
+[sub_resource type="Resource" id="Resource_uy6o3"]
+script = ExtResource("3_fmgxp")
+cbor_hex = "46010000222499"
+plutus_version = 2
+script_args = Array[ExtResource("1_y1my2")]([])
+
+[resource]
+script = ExtResource("4_hbsgd")
+minting_policy = SubResource("Resource_uy6o3")
+token_name = PackedByteArray(67, 105, 116, 121, 84, 111, 107, 101, 110, 48, 48)
+token_name_as_hex = "43697479546f6b656e3030"
+token_name_as_utf8 = "CityToken00"
+name = "Tokyo"
+image = "ipfs://QmQ2AX43ic6CfPz2Mq7Z1t45RrTCTwixZR3qVWhprvJEQ6"
+media_type = "image/webp"
+description = ""
+file_details = Array[ExtResource("2_ue4b1")]([SubResource("Resource_b2m7s")])
+non_standard_metadata = {
+"Blue": 0,
+"Green": 128,
+"Red": 128
+}
+extra_plutus_data = SubResource("Resource_khed8")
+fungible = false
+initial_quantity = 1

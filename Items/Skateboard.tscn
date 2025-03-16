@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://cge0ykj0kmt6b"]
+
+[ext_resource type="Script" path="res://Items/Item.gd" id="1_27o12"]
+[ext_resource type="Texture2D" uid="uid://b1b42migsysa5" path="res://Items/skateboard.png" id="2_vbjss"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_c0ptt"]
+radius = 5.53324
+height = 45.2272
+
+[node name="Skateboard" type="Area2D"]
+scale = Vector2(0.75, 0.75)
+script = ExtResource("1_27o12")
+item_name = "Skateboard"
+icon = ExtResource("2_vbjss")
+is_stackable = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(2, -4)
+rotation = 0.575959
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("2_vbjss")
+region_rect = Rect2(0.703102, 64.9395, 7.6366, 6.58327)
+region_filter_clip_enabled = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(2, -4)
+rotation = 0.575959
+scale = Vector2(0.75, 0.75)
+shape = SubResource("CapsuleShape2D_c0ptt")

@@ -1,0 +1,126 @@
+[gd_scene load_steps=27 format=3 uid="uid://dy6nsdsaji6e5"]
+
+[ext_resource type="PackedScene" uid="uid://cyekjxsvvw1n5" path="res://actors/player/player.tscn" id="2_daqma"]
+[ext_resource type="PackedScene" uid="uid://cy5kwwvn41kyi" path="res://addons/dialogic/assets/selection_screen.tscn" id="2_fgo76"]
+[ext_resource type="PackedScene" uid="uid://besh5pc77yp86" path="res://scenes/level1.tscn" id="2_mjt6j"]
+[ext_resource type="Script" path="res://assets/selection_screen.gd" id="3_ebjvm"]
+[ext_resource type="PackedScene" uid="uid://c7xys4tvomgme" path="res://actors/player/following_camera.tscn" id="3_veamr"]
+[ext_resource type="PackedScene" uid="uid://c8aloe8fjvwr4" path="res://scenes/components/transition_effect.tscn" id="4_hgddd"]
+[ext_resource type="PackedScene" uid="uid://c5sd0cdi2efid" path="res://Items/Machete.tscn" id="5_whfr4"]
+[ext_resource type="PackedScene" uid="uid://dchiedxtid22e" path="res://Items/Armor.tscn" id="6_f2avi"]
+[ext_resource type="PackedScene" uid="uid://3wsbywoaf7ll" path="res://Items/Health.tscn" id="7_jr7ue"]
+[ext_resource type="PackedScene" uid="uid://7vw0rpftaaqy" path="res://Items/Token.tscn" id="8_kca7m"]
+[ext_resource type="PackedScene" uid="uid://4wgkn6w2kwum" path="res://Items/Grape.tscn" id="9_kmbr2"]
+[ext_resource type="Script" path="res://scenes/AudioManager.gd" id="13_mn2m7"]
+[ext_resource type="PackedScene" uid="uid://gbqt48cgguao" path="res://pizza.tscn" id="13_u8bim"]
+[ext_resource type="PackedScene" uid="uid://ghbbi7u3j3lv" path="res://chickenbucket.tscn" id="14_xgl5a"]
+[ext_resource type="PackedScene" uid="uid://bo75xsnqtstm1" path="res://Items/Nerf.tscn" id="15_etd41"]
+[ext_resource type="PackedScene" uid="uid://dytcdplovwyra" path="res://Items/Milk.tscn" id="16_pdj2j"]
+[ext_resource type="PackedScene" uid="uid://34stlb8w27ws" path="res://Items/Gameboyog.tscn" id="18_8ws8g"]
+[ext_resource type="PackedScene" uid="uid://cb7qmf3q7vtre" path="res://Items/Fork.tscn" id="19_5x7rt"]
+[ext_resource type="PackedScene" uid="uid://bf0pmxwjy6m2n" path="res://Items/Fishbowl.tscn" id="20_j2ygy"]
+[ext_resource type="PackedScene" uid="uid://wcye5brki2dv" path="res://Items/CardanoToken.tscn" id="21_87ovq"]
+[ext_resource type="PackedScene" uid="uid://c2h6646spnbo1" path="res://Items/Beer.tscn" id="22_u3end"]
+[ext_resource type="PackedScene" uid="uid://r5umf0wbicgv" path="res://Items/Ricebowl.tscn" id="23_vctys"]
+[ext_resource type="PackedScene" uid="uid://ittkn5dx37js" path="res://Items/RussianToy.tscn" id="24_chuln"]
+[ext_resource type="PackedScene" uid="uid://cge0ykj0kmt6b" path="res://Items/Skateboard.tscn" id="25_73xhs"]
+[ext_resource type="PackedScene" uid="uid://03t161ptph0w" path="res://Items/fishthing.tscn" id="26_w35h0"]
+[ext_resource type="PackedScene" uid="uid://j6dnto3d6n0s" path="res://Items/MagicWand.tscn" id="26_wpuu2"]
+
+[node name="Game" type="Node"]
+metadata/_edit_horizontal_guides_ = [104.0]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="CanvasLayer"]
+script = ExtResource("13_mn2m7")
+
+[node name="SelectionScreen" parent="CanvasLayer" instance=ExtResource("2_fgo76")]
+script = ExtResource("3_ebjvm")
+
+[node name="TransitionEffect" parent="." instance=ExtResource("4_hgddd")]
+process_mode = 3
+offset_left = 229.0
+offset_top = 171.0
+offset_right = 229.0
+offset_bottom = 171.0
+
+[node name="World" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="Player2" parent="World" instance=ExtResource("2_daqma")]
+position = Vector2(129, 138)
+
+[node name="FollowingCamera" parent="World/Player2" instance=ExtResource("3_veamr")]
+zoom = Vector2(4, 4)
+limit_left = -20
+limit_top = -20
+
+[node name="LevelRoot" type="Node2D" parent="World"]
+y_sort_enabled = true
+
+[node name="Level1" parent="World/LevelRoot" instance=ExtResource("2_mjt6j")]
+
+[node name="Machete" parent="World" instance=ExtResource("5_whfr4")]
+position = Vector2(149, 122)
+item_name = ""
+icon = null
+is_stackable = false
+
+[node name="Armor" parent="World" instance=ExtResource("6_f2avi")]
+position = Vector2(161, 177)
+
+[node name="Health" parent="World" instance=ExtResource("7_jr7ue")]
+position = Vector2(65, 544)
+
+[node name="Token" parent="World" instance=ExtResource("8_kca7m")]
+position = Vector2(164, 185)
+
+[node name="Health2" parent="World" instance=ExtResource("7_jr7ue")]
+position = Vector2(171, 174)
+
+[node name="Grape" parent="World" instance=ExtResource("9_kmbr2")]
+position = Vector2(172, 185)
+
+[node name="Pizza" parent="World" instance=ExtResource("13_u8bim")]
+position = Vector2(150, 137)
+
+[node name="ChickenBucket" parent="World" instance=ExtResource("14_xgl5a")]
+position = Vector2(144, 118)
+
+[node name="NerfGuns" parent="World" instance=ExtResource("15_etd41")]
+position = Vector2(127, 150)
+
+[node name="Milk" parent="World" instance=ExtResource("16_pdj2j")]
+position = Vector2(111, 116)
+
+[node name="Gameboy" parent="World" instance=ExtResource("18_8ws8g")]
+position = Vector2(143, 102)
+
+[node name="Fishbowl" parent="World" instance=ExtResource("20_j2ygy")]
+position = Vector2(114, 87)
+
+[node name="CardanoToken" parent="World" instance=ExtResource("21_87ovq")]
+position = Vector2(107, 101)
+
+[node name="Beer" parent="World" instance=ExtResource("22_u3end")]
+position = Vector2(114, 131)
+
+[node name="Ricebowl" parent="World" instance=ExtResource("23_vctys")]
+position = Vector2(102, 129)
+
+[node name="RussianToy" parent="World" instance=ExtResource("24_chuln")]
+position = Vector2(144, 87)
+
+[node name="Skateboard" parent="World" instance=ExtResource("25_73xhs")]
+position = Vector2(159, 98)
+
+[node name="Fishthing" parent="World" instance=ExtResource("26_w35h0")]
+position = Vector2(105, 114)
+
+[node name="Fork" parent="World" instance=ExtResource("19_5x7rt")]
+position = Vector2(127, 104)
+
+[node name="MagicWand" parent="World" instance=ExtResource("26_wpuu2")]
+position = Vector2(130, 89)

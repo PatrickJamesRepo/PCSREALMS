@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://j6dnto3d6n0s"]
+
+[ext_resource type="Script" path="res://Items/Item.gd" id="1_yhg4x"]
+[ext_resource type="Texture2D" uid="uid://b0rn63l8lwbwx" path="res://Items/magicalwand.png" id="2_3hbtj"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_uv3ot"]
+radius = 2.43626
+height = 28.6538
+
+[node name="MagicWand" type="Area2D"]
+scale = Vector2(0.75, 0.75)
+script = ExtResource("1_yhg4x")
+item_name = "MagicWand"
+icon = ExtResource("2_3hbtj")
+is_stackable = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(2, -2)
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("2_3hbtj")
+region_rect = Rect2(0.703102, 64.9395, 7.6366, 6.58327)
+region_filter_clip_enabled = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(2.38419e-07, 2.38419e-07)
+rotation = -2.60578
+scale = Vector2(0.75, 0.75)
+shape = SubResource("CapsuleShape2D_uv3ot")

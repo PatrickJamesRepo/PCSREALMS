@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://cf842a5fday67"]
+
+[ext_resource type="Texture2D" uid="uid://jy3ar3u6u8de" path="res://assets/sprites/objects/frame32bit.png" id="1_yyaam"]
+
+[node name="Frame" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(3, 1.5)
+texture = ExtResource("1_yyaam")

@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://c2h6646spnbo1"]
+
+[ext_resource type="Script" path="res://Items/Item.gd" id="1_ridhm"]
+[ext_resource type="Texture2D" uid="uid://u144soa32yld" path="res://Items/beer.png" id="2_bfhl6"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_yvioh"]
+radius = 16.3032
+height = 42.4212
+
+[node name="Beer" type="Area2D"]
+script = ExtResource("1_ridhm")
+item_name = "Knife"
+icon = ExtResource("2_bfhl6")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_bfhl6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1)
+rotation = -0.0453786
+scale = Vector2(0.183823, 0.186252)
+shape = SubResource("CapsuleShape2D_yvioh")

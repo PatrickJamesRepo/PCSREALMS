@@ -1,0 +1,461 @@
+[gd_scene load_steps=4 format=3 uid="uid://43m26hp7h6wp"]
+
+[ext_resource type="Texture2D" uid="uid://lo2grgpf865o" path="res://addons/dialogic/assets/fonts/pcsbanner.jpg" id="1_lxs6s"]
+
+[sub_resource type="GDScript" id="GDScript_ljfd6"]
+script/source = "extends Control
+
+signal joinGame(ip)
+signal wallet_address_updated(new_address: String)
+
+@export var Address = \"204.48.28.159\"
+@export var port = 8910
+var peer
+var player_wallet_address: String = \"\"
+var game_started: bool = false 
+
+# Multiplayer UI nodes (adjust paths if needed)
+@onready var line_edit: LineEdit = get_node_or_null(\"LineEdit\")
+@onready var server_browser: Control = get_node_or_null(\"ServerBrowser\")
+# Wallet nodes (from WalletMain)
+@onready var wallet_details: RichTextLabel = get_node_or_null(\"WalletDetails\")
+@onready var address_input: LineEdit = get_node_or_null(\"UI/AddressInput\")
+@onready var amount_input: LineEdit = get_node_or_null(\"AmountInput\")
+@onready var password_input: LineEdit = get_node_or_null(\"WalletMain/SendAdaForm/Password/PasswordInput\")
+@onready var password_warning: Label = get_node_or_null(\"WalletMain/SendAdaForm/Password/Status\")
+@onready var phrase_input: TextEdit = get_node_or_null(\"PhraseInput\")
+@onready var timers_details: Label = get_node_or_null(\"WalletTimers\")
+@onready var send_ada_button: Button = get_node_or_null(\"SendAdaButton\")
+@onready var mint_token_button: Button = get_node_or_null(\"MintTokenButton\")
+@onready var create_script_output_button: Button = get_node_or_null(\"CreateScriptOutput\")
+@onready var consume_script_input_button: Button = get_node_or_null(\"ConsumeScriptInput\")
+@onready var set_button: Button = get_node_or_null(\"SetButton\")
+@onready var generate_button: Button = get_node_or_null(\"GenerateButton\")
+
+# Exported join server button path.
+@export var join_server_button_path: NodePath = \"UI/JoinServerButton\"
+@onready var join_server_button: Button = get_node_or_null(join_server_button_path)
+
+
+
+# WalletMainControl node (for wallet UI)
+@onready var wallet_control: Node = get_tree().root.get_node_or_null(\"WalletMainControl\")
+
+# Test script for transactions.
+var test_spend_script: PlutusScript = PlutusScript.create(\"581b0100003222253330043330043370e900124008941288a4c2cae681\".hex_decode())
+
+func _ready() -> void:
+	print(\"MultiplayerController _ready() started.\")
+	
+	# Initialize LineEdit with default Address.
+	if line_edit:
+		line_edit.text = Address
+		line_edit.editable = false
+		print(\"LineEdit initialized with Address:\", Address)
+	else:
+		push_error(\"MultiplayerController: LineEdit not found!\")
+	
+	# Make AddressInput read-only.
+	if address_input:
+		address_input.editable = false
+	else:
+		push_error(\"MultiplayerController: AddressInput not found!\")
+	
+	# Connect text_changed signal for debugging.
+	if address_input and not address_input.is_connected(\"text_changed\", Callable(self, \"_on_address_input_text_changed\")):
+		address_input.connect(\"text_changed\", Callable(self, \"_on_address_input_text_changed\"))
+	
+	# Disable join server button until wallet is set.
+	if join_server_button:
+		if not join_server_button.is_connected(\"pressed\", Callable(self, \"_on_join_server_button_pressed\")):
+			join_server_button.connect(\"pressed\", Callable(self, \"_on_join_server_button_pressed\"))
+		join_server_button.disabled = true
+		print(\"Join Server button disabled in _ready().\")
+	else:
+		push_error(\"MultiplayerController: JoinServerButton not found at path: \" + str(join_server_button_path))
+
+	# Connect multiplayer signals.
+	multiplayer.peer_connected.connect(peer_connected)
+	multiplayer.peer_disconnected.connect(peer_disconnected)
+	multiplayer.connected_to_server.connect(connected_to_server)
+	multiplayer.connection_failed.connect(connection_failed)
+	
+	# If running as server, host immediately.
+	if \"--server\" in OS.get_cmdline_args():
+		hostGame()
+
+func _process(delta):
+	pass
+
+func peer_connected(id):
+	print(\"Player Connected: \" + str(id))
+
+func peer_disconnected(id):
+	print(\"Player Disconnected: \" + str(id))
+	GameManager.Players.erase(id)
+	for p in get_tree().get_nodes_in_group(\"Player\"):
+		if p.name == str(id):
+			p.queue_free()
+
+func connected_to_server():
+	print(\"Connected to Server!\")
+	SendPlayerInformation.rpc_id(1, line_edit.text, multiplayer.get_unique_id())
+
+func connection_failed():
+	print(\"Couldn't Connect\")
+
+@rpc(\"any_peer\")
+func SendPlayerInformation(name, id):
+	if !GameManager.Players.has(id):
+		GameManager.Players[id] = {\"name\": name, \"id\": id, \"score\": 0}
+	if multiplayer.is_server():
+		for key in GameManager.Players:
+			SendPlayerInformation.rpc(GameManager.Players[key].name, key)
+
+@rpc(\"any_peer\", \"call_local\")
+func StartGame() -> void:
+	if game_started:
+		print(\"StartGame already triggered; ignoring duplicate call.\")
+		return
+	game_started = true
+	print(\"StartGame() called.\")
+	var next_level_path = \"res://scenes/level1.tscn\"
+	# Try to use LevelManager singleton.
+	if Engine.has_singleton(\"LevelManager\"):
+		var lm = Engine.get_singleton(\"LevelManager\")
+		if lm.has_method(\"start_game\"):
+			print(\"LevelManager singleton found. Calling start_game().\")
+			lm.start_game()  # LevelManager should load the level.
+			print(\"LevelManager.start_game() called.\")
+		else:
+			print(\"LevelManager singleton found but does not implement start_game().\")
+	else:
+		print(\"LevelManager singleton not found! Falling back to change_scene_to_file().\")
+		var err = get_tree().change_scene_to_file(next_level_path)
+		print(\"Fallback change_scene_to_file() returned:\", err)
+		if err != OK:
+			print(\"ERROR: Scene change failed. Verify that\", next_level_path, \"exists.\")
+	# Wait briefly to allow the level to load, then remove this controller.
+	await get_tree().create_timer(0.5).timeout
+	print(\"Removing MultiplayerController from scene.\")
+	self.queue_free()
+
+func hostGame():
+	peer = ENetMultiplayerPeer.new()
+	var error = peer.create_server(port, 2)
+	if error != OK:
+		print(\"Cannot host: \" + str(error))
+		return
+	peer.get_host().compress(ENetConnection.COMPRESS_RANGE_CODER)
+	multiplayer.set_multiplayer_peer(peer)
+	print(\"Waiting For Players!\")
+
+func _on_host_button_down():
+	hostGame()
+	SendPlayerInformation.rpc_id(1, line_edit.text, multiplayer.get_unique_id())
+	if server_browser and server_browser.has_method(\"setUpBroadCast\"):
+		server_browser.setUpBroadCast(line_edit.text + \"'s server\")
+	else:
+		print(\"ServerBrowser or setUpBroadCast() method not found.\")
+
+func _on_join_button_down():
+	JoinByIp(Address)
+
+func JoinByIp(ip):
+	peer = ENetMultiplayerPeer.new()
+	peer.create_client(ip, port)
+	peer.get_host().compress(ENetConnection.COMPRESS_RANGE_CODER)
+	multiplayer.set_multiplayer_peer(peer)
+	print(\"Attempting to join server at: \" + ip)
+
+func _on_start_game_button_down():
+	StartGame.rpc()
+
+func _on_button_button_down():
+	GameManager.Players[GameManager.Players.size() + 1] = {\"name\": \"test\", \"id\": 1, \"score\": 0}
+
+func _on_address_input_text_changed(new_text: String) -> void:
+	print(\"AddressInput text changed:\", new_text)
+
+# This function should be called (via signal or directly) from your wallet management script.
+func set_wallet_address(addr: String) -> void:
+	player_wallet_address = addr
+	if address_input:
+		address_input.text = addr
+		address_input.editable = false
+		print(\"Wallet address updated in AddressInput:\", addr)
+	else:
+		push_error(\"WalletMain: AddressInput not found!\")
+	if line_edit:
+		line_edit.text = addr
+		line_edit.editable = false
+		print(\"MultiplayerController: LineEdit updated with wallet address:\", addr)
+	else:
+		push_error(\"MultiplayerController: LineEdit not found!\")
+	emit_signal(\"wallet_address_updated\", addr)
+"
+
+[sub_resource type="GDScript" id="GDScript_gh0n3"]
+script/source = "extends Control
+
+signal found_server
+signal server_removed
+signal joinGame(ip)
+
+@export var listenPort: int = 8911
+@export var broadcastPort: int = 8912
+@export var broadcastAddress: String = \"192.168.1.255\"
+@export var serverInfo: PackedScene
+
+var broadcastTimer: Timer
+var listner: PacketPeerUDP
+var broadcaster: PacketPeerUDP
+var RoomInfo = {\"name\": \"Server\", \"playerCount\": 0}
+
+@onready var status_label: Label = $Label2
+@onready var vbox: Control = $Panel/VBoxContainer
+
+func _ready():
+	print(\"ServerBrowser _ready() called.\")
+	broadcastTimer = $BroadcastTimer
+	setUp()
+
+func setUp():
+	listner = PacketPeerUDP.new()
+	var ok = listner.bind(listenPort)
+	if ok == OK:
+		print(\"Bound to listen Port \" + str(listenPort) + \" Successful!\")
+		if status_label:
+			status_label.text = \"Bound To Listen Port: true\"
+	else:
+		print(\"Failed to bind to listen port!\")
+		if status_label:
+			status_label.text = \"Bound To Listen Port: false\"
+
+func setUpBroadCast(server_name: String):
+	print(\"Setting up broadcast for server:\", server_name)
+	RoomInfo[\"name\"] = server_name
+	RoomInfo[\"playerCount\"] = GameManager.Players.size()
+	broadcaster = PacketPeerUDP.new()
+	broadcaster.set_broadcast_enabled(true)
+	broadcaster.set_dest_address(broadcastAddress, listenPort)
+	var ok = broadcaster.bind(broadcastPort)
+	if ok == OK:
+		print(\"Bound to Broadcast Port \" + str(broadcastPort) + \" Successful!\")
+	else:
+		print(\"Failed to bind to broadcast port!\")
+		return
+	$BroadcastTimer.start()
+
+func _process(delta):
+	if listner.get_available_packet_count() > 0:
+		var server_ip = listner.get_packet_ip()
+		var server_port = listner.get_packet_port()
+		var bytes = listner.get_packet()
+		var data = bytes.get_string_from_ascii()
+		print(\"server Ip: \" + server_ip + \" serverPort: \" + str(server_port) + \" room info: \" + data)
+		var roomInfoParsed = JSON.parse_string(data)
+		if not roomInfoParsed or not roomInfoParsed is Dictionary:
+			print(\"Invalid broadcast packet received.\")
+			return
+		update_server_browser(roomInfoParsed, server_ip)
+	
+func _on_broadcast_timer_timeout():
+	print(\"Broadcasting Game!\")
+	RoomInfo[\"playerCount\"] = GameManager.Players.size()
+	var data = JSON.stringify(RoomInfo)
+	var packet = data.to_ascii_buffer()
+	broadcaster.put_packet(packet)
+	print(\"Broadcast packet sent successfully.\")
+
+func update_server_browser(room_info: Dictionary, server_ip: String):
+	print(\"Updating Server Browser with:\", room_info)
+	var room_name = room_info.get(\"name\", \"Unknown Server\")
+	var player_count = str(room_info.get(\"playerCount\", 0))
+	
+	# Update existing listing if found.
+	for child in vbox.get_children():
+		if child.name == room_name:
+			var ip_node = child.get_node_or_null(\"Ip\")
+			var count_node = child.get_node_or_null(\"PlayerCount\")
+			if ip_node:
+				ip_node.text = server_ip
+			if count_node:
+				count_node.text = player_count
+			print(\"Updated existing server info for:\", room_name)
+			return
+	
+	# Instantiate new server info item.
+	if serverInfo == null:
+		push_error(\"serverInfo PackedScene is not assigned!\")
+		return
+	var new_server_info = serverInfo.instantiate()
+	new_server_info.name = room_name
+	var name_node = new_server_info.get_node_or_null(\"Name\")
+	var ip_node = new_server_info.get_node_or_null(\"Ip\")
+	var count_node = new_server_info.get_node_or_null(\"PlayerCount\")
+	if name_node:
+		name_node.text = room_name
+	if ip_node:
+		ip_node.text = server_ip
+	if count_node:
+		count_node.text = player_count
+	vbox.add_child(new_server_info)
+	print(\"Added server info instance to vbox:\", new_server_info.name)
+	
+	if new_server_info.has_signal(\"joinGame\"):
+		var call = Callable(self, \"_on_server_info_join_requested\")
+		if not new_server_info.is_connected(\"joinGame\", call):
+			new_server_info.connect(\"joinGame\", call)
+	else:
+		print(\"WARNING: The serverInfo scene does not have a 'joinGame' signal.\")
+
+func _on_server_info_join_requested(ip: String):
+	emit_signal(\"joinGame\", ip)
+
+func cleanUp():
+	if listner:
+		listner.close()
+	$BroadcastTimer.stop()
+	if broadcaster:
+		broadcaster.close()
+
+func _exit_tree():
+	cleanUp()
+
+func joinbyIp(ip):
+	emit_signal(\"joinGame\", ip)
+"
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = SubResource("GDScript_ljfd6")
+metadata/_edit_lock_ = true
+
+[node name="TextureRect" type="TextureRect" parent="."]
+modulate = Color(1, 0.976471, 1, 0.168627)
+z_index = -100
+texture_filter = 3
+layout_mode = 0
+offset_left = -20.0
+offset_top = -19.0
+offset_right = 1275.0
+offset_bottom = 715.0
+scale = Vector2(0.92, 0.92)
+mouse_filter = 2
+texture = ExtResource("1_lxs6s")
+
+[node name="Host" type="Button" parent="."]
+layout_mode = 0
+offset_left = 587.0
+offset_top = 165.0
+offset_right = 703.0
+offset_bottom = 213.0
+text = "Host"
+
+[node name="Join" type="Button" parent="."]
+layout_mode = 0
+offset_left = 791.0
+offset_top = 165.0
+offset_right = 899.0
+offset_bottom = 214.0
+text = "Join"
+
+[node name="StartGame" type="Button" parent="."]
+layout_mode = 0
+offset_left = 974.0
+offset_top = 162.0
+offset_right = 1109.0
+offset_bottom = 213.0
+text = "Start Game"
+
+[node name="LineEdit" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 586.0
+offset_top = 116.0
+offset_right = 901.0
+offset_bottom = 154.0
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 589.0
+offset_top = 78.0
+offset_right = 636.0
+offset_bottom = 104.0
+text = "Name"
+
+[node name="ServerBrowser" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = SubResource("GDScript_gh0n3")
+
+[node name="BroadcastTimer" type="Timer" parent="ServerBrowser"]
+
+[node name="Label2" type="Label" parent="ServerBrowser"]
+layout_mode = 0
+offset_left = 861.0
+offset_top = 15.0
+offset_right = 1140.0
+offset_bottom = 67.0
+text = "Bound To 
+Listen Port: "
+
+[node name="Panel" type="Panel" parent="ServerBrowser"]
+layout_mode = 0
+offset_left = 587.0
+offset_top = 222.0
+offset_right = 1114.0
+offset_bottom = 561.0
+
+[node name="ServerInfo2" type="HBoxContainer" parent="ServerBrowser/Panel"]
+layout_mode = 2
+offset_top = 1.0
+offset_right = 643.0
+offset_bottom = 51.0
+
+[node name="Name" type="Label" parent="ServerBrowser/Panel/ServerInfo2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Name"
+
+[node name="Ip" type="Label" parent="ServerBrowser/Panel/ServerInfo2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "IP"
+
+[node name="PlayerCount" type="Label" parent="ServerBrowser/Panel/ServerInfo2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Player Count"
+
+[node name="PlayerCount2" type="Label" parent="ServerBrowser/Panel/ServerInfo2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Join"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ServerBrowser/Panel"]
+layout_mode = 0
+offset_top = 53.0
+offset_right = 523.0
+offset_bottom = 332.0
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 918.0
+offset_top = 79.0
+offset_right = 1109.0
+offset_bottom = 123.0
+text = "test add player (host)"
+
+[connection signal="button_down" from="Host" to="." method="_on_host_button_down"]
+[connection signal="button_down" from="Join" to="." method="_on_join_button_down"]
+[connection signal="button_down" from="StartGame" to="." method="_on_start_game_button_down"]
+[connection signal="text_changed" from="LineEdit" to="." method="_on_line_edit_text_changed"]
+[connection signal="timeout" from="ServerBrowser/BroadcastTimer" to="ServerBrowser" method="_on_broadcast_timer_timeout"]
+[connection signal="button_down" from="Button" to="." method="_on_button_button_down"]

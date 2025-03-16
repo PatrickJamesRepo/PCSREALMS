@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://bp1cl6dw60u81"]
+
+[ext_resource type="Script" path="res://Items/Item.gd" id="1_xfoee"]
+[ext_resource type="Texture2D" uid="uid://dylj878weioam" path="res://Items/Knife.png" id="2_hllqe"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_yvioh"]
+radius = 7.83962
+height = 107.271
+
+[node name="Knife" type="Area2D"]
+script = ExtResource("1_xfoee")
+item_name = "Knife"
+icon = ExtResource("2_hllqe")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_hllqe")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1)
+rotation = 0.804597
+scale = Vector2(0.183823, 0.186252)
+shape = SubResource("CapsuleShape2D_yvioh")

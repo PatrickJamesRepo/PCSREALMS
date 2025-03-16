@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://ghbbi7u3j3lv"]
+
+[ext_resource type="Script" path="res://Items/Item.gd" id="1_d0wmd"]
+[ext_resource type="Texture2D" uid="uid://bxmn7kbu25lx4" path="res://Items/chickenbucket.png" id="2_eabht"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_npc0f"]
+radius = 8.0
+height = 40.0
+
+[node name="ChickenBucket" type="Area2D"]
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_d0wmd")
+item_name = "ChickenBucket"
+icon = ExtResource("2_eabht")
+is_stackable = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-1, -2)
+texture = ExtResource("2_eabht")
+region_rect = Rect2(0.703102, 64.9395, 7.6366, 6.58327)
+region_filter_clip_enabled = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(0.5, 0.5)
+shape = SubResource("CapsuleShape2D_npc0f")

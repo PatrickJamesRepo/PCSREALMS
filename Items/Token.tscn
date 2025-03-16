@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://7vw0rpftaaqy"]
+
+[ext_resource type="Script" path="res://Items/Item.gd" id="1_k6ero"]
+[ext_resource type="Texture2D" uid="uid://pvjymoqfjp0f" path="res://Items/token.png" id="2_ltbwe"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ww0on"]
+radius = 16.9706
+
+[node name="Token" type="Area2D"]
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_k6ero")
+item_name = "Token"
+icon = ExtResource("2_ltbwe")
+is_stackable = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-1, 2)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_ltbwe")
+region_rect = Rect2(0.703102, 64.9395, 7.6366, 6.58327)
+region_filter_clip_enabled = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-2, 2)
+rotation = 0.785398
+scale = Vector2(0.5, 0.5)
+shape = SubResource("CircleShape2D_ww0on")

@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://4wgkn6w2kwum"]
+
+[ext_resource type="Script" path="res://Items/Item.gd" id="1_0kuvr"]
+[ext_resource type="Texture2D" uid="uid://dpfn442f0iotw" path="res://Items/grapes.png" id="3_7om15"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wam7f"]
+radius = 16.4924
+
+[node name="Grape" type="Area2D"]
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_0kuvr")
+item_name = "Grape"
+icon = ExtResource("3_7om15")
+is_stackable = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-3.8147e-06, -2)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_7om15")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(3.38813e-21, 2)
+rotation = -0.120428
+scale = Vector2(0.5, 0.5)
+shape = SubResource("CircleShape2D_wam7f")

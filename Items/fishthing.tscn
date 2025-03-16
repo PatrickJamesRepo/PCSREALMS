@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://03t161ptph0w"]
+
+[ext_resource type="Script" path="res://Items/Item.gd" id="1_ihby3"]
+[ext_resource type="Texture2D" uid="uid://bat2bycu2h5xo" path="res://Items/wierdfishthing.png" id="2_ny82c"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ww0on"]
+radius = 5.65685
+
+[node name="Fishthing" type="Area2D"]
+scale = Vector2(0.6, 0.6)
+script = ExtResource("1_ihby3")
+item_name = "Fishthing"
+icon = ExtResource("2_ny82c")
+is_stackable = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-1, 2)
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("2_ny82c")
+region_rect = Rect2(0.703102, 64.9395, 7.6366, 6.58327)
+region_filter_clip_enabled = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-2, 2)
+rotation = 0.785398
+scale = Vector2(0.6, 0.6)
+shape = SubResource("CircleShape2D_ww0on")

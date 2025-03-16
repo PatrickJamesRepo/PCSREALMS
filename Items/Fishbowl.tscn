@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://bf0pmxwjy6m2n"]
+
+[ext_resource type="Script" path="res://Items/Item.gd" id="1_onrok"]
+[ext_resource type="Texture2D" uid="uid://bvao5on0bmf0q" path="res://Items/fishbowl.png" id="2_6bjsu"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_t1isd"]
+radius = 8.88889
+height = 24.8889
+
+[node name="Fishbowl" type="Area2D"]
+scale = Vector2(0.75, 0.75)
+script = ExtResource("1_onrok")
+item_name = "Fishbowl"
+icon = ExtResource("2_6bjsu")
+is_stackable = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(2, -2)
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("2_6bjsu")
+region_rect = Rect2(0.703102, 64.9395, 7.6366, 6.58327)
+region_filter_clip_enabled = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(2.66667, -1.33333)
+rotation = -4.71239
+scale = Vector2(0.75, 0.75)
+shape = SubResource("CapsuleShape2D_t1isd")

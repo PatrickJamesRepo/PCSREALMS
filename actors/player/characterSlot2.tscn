@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=3 uid="uid://b87h36g1f6o2x"]
+
+[ext_resource type="Script" path="res://assets/characterSlot.gd" id="1_yfv81"]
+[ext_resource type="Texture2D" uid="uid://cqxbmcfive84w" path="res://PirateFramesChar.png" id="2_n215u"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qxauf"]
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="Character2" type="Panel"]
+custom_minimum_size = Vector2(120, 120)
+scale = Vector2(1.5, 1.5)
+theme_override_styles/panel = SubResource("StyleBoxFlat_qxauf")
+script = ExtResource("1_yfv81")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+z_index = 1000
+layout_mode = 2
+offset_left = 2.66667
+offset_top = 4.0
+offset_right = 302.667
+offset_bottom = 304.0
+scale = Vector2(0.38, 0.38)
+texture = ExtResource("2_n215u")
+expand_mode = 2
+stretch_mode = 1

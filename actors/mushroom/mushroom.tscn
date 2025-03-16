@@ -1,0 +1,172 @@
+[gd_scene load_steps=20 format=3 uid="uid://bi4mtadlca6ii"]
+
+[ext_resource type="Texture2D" uid="uid://86tussl5muy6" path="res://actors/mushroom/mushroom.png" id="1_oubts"]
+
+[sub_resource type="GDScript" id="GDScript_7pmo3"]
+script/source = "extends Actor
+
+
+@onready var sprite : Sprite2D = $AnimatedSprite2D
+@onready var detection_area : DetectionArea = $DetectionArea
+
+
+func _on_health_health_depleted() -> void:
+	is_alive = false
+	
+	# TODO How can I use anim_state here?
+	anim_tree.active = false
+	anim_player.play(\"death\")
+	await anim_player.animation_finished
+	queue_free()
+"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lliqr"]
+atlas = ExtResource("1_oubts")
+region = Rect2(0, 128, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y60kc"]
+atlas = ExtResource("1_oubts")
+region = Rect2(32, 128, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q14kq"]
+atlas = ExtResource("1_oubts")
+region = Rect2(0, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xsxdf"]
+atlas = ExtResource("1_oubts")
+region = Rect2(32, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hxcid"]
+atlas = ExtResource("1_oubts")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_drva3"]
+atlas = ExtResource("1_oubts")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_smrck"]
+atlas = ExtResource("1_oubts")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pn6nl"]
+atlas = ExtResource("1_oubts")
+region = Rect2(96, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n4jes"]
+atlas = ExtResource("1_oubts")
+region = Rect2(128, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5j106"]
+atlas = ExtResource("1_oubts")
+region = Rect2(0, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r2yqk"]
+atlas = ExtResource("1_oubts")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xlm7f"]
+atlas = ExtResource("1_oubts")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s6s5u"]
+atlas = ExtResource("1_oubts")
+region = Rect2(32, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lc6oa"]
+atlas = ExtResource("1_oubts")
+region = Rect2(64, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q1ege"]
+atlas = ExtResource("1_oubts")
+region = Rect2(96, 64, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_b4idh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lliqr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y60kc")
+}],
+"loop": true,
+"name": &"HitFlash-Red",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q14kq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xsxdf")
+}],
+"loop": true,
+"name": &"HitFlash-White",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hxcid")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_drva3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_smrck")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pn6nl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n4jes")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5j106")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r2yqk")
+}],
+"loop": true,
+"name": &"reset",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xlm7f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s6s5u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lc6oa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q1ege")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qtpy7"]
+radius = 2.23607
+
+[node name="mushroom" type="CharacterBody2D"]
+scale = Vector2(0.8, 0.8)
+script = SubResource("GDScript_7pmo3")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -3)
+scale = Vector2(0.25, 0.25)
+sprite_frames = SubResource("SpriteFrames_b4idh")
+animation = &"walk"
+frame_progress = 0.211429
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -1)
+shape = SubResource("CircleShape2D_qtpy7")

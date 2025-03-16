@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://r5umf0wbicgv"]
+
+[ext_resource type="Script" path="res://Items/Item.gd" id="1_6jnn7"]
+[ext_resource type="Texture2D" uid="uid://dpgeef2fohbnt" path="res://Items/ricebowl.png" id="2_p3fxd"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_t1isd"]
+radius = 5.33333
+height = 14.2222
+
+[node name="Ricebowl" type="Area2D"]
+position = Vector2(-2, -1)
+scale = Vector2(0.75, 0.75)
+script = ExtResource("1_6jnn7")
+item_name = "Ricebowl"
+icon = ExtResource("2_p3fxd")
+is_stackable = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(2, -2)
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("2_p3fxd")
+region_rect = Rect2(0.703102, 64.9395, 7.6366, 6.58327)
+region_filter_clip_enabled = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(2.66667, 2.0211e-13)
+rotation = -4.71239
+scale = Vector2(0.75, 0.75)
+shape = SubResource("CapsuleShape2D_t1isd")

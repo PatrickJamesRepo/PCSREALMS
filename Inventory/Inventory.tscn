@@ -1,0 +1,48 @@
+[gd_scene load_steps=5 format=3 uid="uid://bmjfj4vqk741i"]
+
+[ext_resource type="Script" path="res://Inventory/Inventory.gd" id="1_q4k68"]
+[ext_resource type="PackedScene" uid="uid://br1w3bqg01oic" path="res://Inventory/InventorySlot/InventorySlot.tscn" id="2_04quu"]
+[ext_resource type="Texture2D" uid="uid://bfqyloj8wbqs7" path="res://assets/sprites/objects/gameboygray.png" id="3_7binh"]
+[ext_resource type="PackedScene" uid="uid://jwfwue00qhn0" path="res://Inventory/Tooltip/Tooltip.tscn" id="3_oh8lo"]
+
+[node name="Inventory" type="Control" node_paths=PackedStringArray("inventory_grid", "tooltip")]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 1049.0
+offset_top = 303.0
+offset_right = 1049.0
+offset_bottom = 303.0
+script = ExtResource("1_q4k68")
+rows = 4
+cols = 4
+inventory_grid = NodePath("GridContainer")
+inventory_slot_scene = ExtResource("2_04quu")
+tooltip = NodePath("Tooltip")
+
+[node name="InventoryStatsEmpty" type="Sprite2D" parent="."]
+position = Vector2(-99, 20)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_7binh")
+
+[node name="GridContainer" type="GridContainer" parent="."]
+z_index = 100
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -57.0
+offset_top = -63.0
+offset_right = 7.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.6, 0.6)
+columns = 4
+
+[node name="Tooltip" parent="." instance=ExtResource("3_oh8lo")]
+layout_mode = 0
+offset_left = -2332.09
+offset_top = -1207.27
+offset_right = -2332.09
+offset_bottom = -1143.27
+mouse_filter = 2

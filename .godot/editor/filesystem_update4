@@ -1,0 +1,7 @@
+res://scenes/game.tscn
+res://assets/tileset.tres
+res://Items/Skateboard.tscn
+res://addons/dialogic/assets/selection_screen.tscn
+res://actors/player/player.tscn
+res://Items/Fork.tscn
+res://Items/fishthing.tscn

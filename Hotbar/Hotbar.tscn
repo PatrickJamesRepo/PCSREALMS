@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://slj1mva2a2fn"]
+
+[ext_resource type="Script" path="res://Hotbar/Hotbar.gd" id="1_yoi62"]
+[ext_resource type="PackedScene" uid="uid://bmjfj4vqk741i" path="res://Inventory/Inventory.tscn" id="2_s7u6h"]
+
+[node name="Hotbar" type="Control" node_paths=PackedStringArray("underlying_inventory")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_yoi62")
+underlying_inventory = NodePath("Inventory")
+
+[node name="Inventory" parent="." instance=ExtResource("2_s7u6h")]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.911
+anchor_top = 0.468
+anchor_right = 0.911
+anchor_bottom = 0.468
+offset_left = -0.472046
+offset_top = -0.264008
+offset_right = -0.472046
+offset_bottom = -0.264008
+rows = 1
+cols = 4

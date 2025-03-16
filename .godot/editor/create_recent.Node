@@ -1,0 +1,14 @@
+Sprite2D
+AnimatedSprite2D
+CanvasLayer
+CollisionShape2D
+Area2D
+Control
+AudioStreamPlayer2D
+Marker2D
+Node2D
+MultiplayerSynchronizer
+Panel
+Camera2D
+Node
+Button

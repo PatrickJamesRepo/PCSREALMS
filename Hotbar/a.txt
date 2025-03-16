@@ -1,0 +1,8 @@
+has an inventory instance and
+extends its functionality and adds a slot
+ highlight based on
+mouse wheel up or down. it is useful for player equip
+items.
+
+if used in FPS game, the current highlighted_slot can hold
+the currently selected weapon.

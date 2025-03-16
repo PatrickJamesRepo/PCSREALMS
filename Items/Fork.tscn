@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://cb7qmf3q7vtre"]
+
+[ext_resource type="Script" path="res://Items/Item.gd" id="1_tw5db"]
+[ext_resource type="Texture2D" uid="uid://de0ykbf4x0s4k" path="res://Items/fork.png" id="2_abbft"]
+[ext_resource type="PackedScene" uid="uid://bp1cl6dw60u81" path="res://Items/Knife.tscn" id="3_7qeo1"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_c0ptt"]
+radius = 1.52863
+height = 17.6748
+
+[node name="Fork" type="Area2D"]
+rotation = -1.65806
+script = ExtResource("1_tw5db")
+item_name = "Fork"
+icon = ExtResource("2_abbft")
+is_stackable = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(2, -2)
+texture = ExtResource("2_abbft")
+region_rect = Rect2(0.703102, 64.9395, 7.6366, 6.58327)
+region_filter_clip_enabled = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1.19209e-07)
+rotation = -2.41728
+shape = SubResource("CapsuleShape2D_c0ptt")
+
+[node name="Knife" parent="." instance=ExtResource("3_7qeo1")]
+position = Vector2(2.90143, 1.25765)
+rotation = -4.71239

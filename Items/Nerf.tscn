@@ -1,0 +1,37 @@
+[gd_scene load_steps=4 format=3 uid="uid://bo75xsnqtstm1"]
+
+[ext_resource type="Script" path="res://Items/Item.gd" id="1_j7j5j"]
+[ext_resource type="Texture2D" uid="uid://doejlwcw8ry1n" path="res://Items/Nerf.png" id="2_ld8lf"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_uv3ot"]
+radius = 1.77771
+height = 35.538
+
+[node name="NerfGuns" type="Area2D"]
+scale = Vector2(0.75, 0.75)
+script = ExtResource("1_j7j5j")
+item_name = "Nerf"
+icon = ExtResource("2_ld8lf")
+is_stackable = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(16, -4)
+rotation = -5.32675
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("2_ld8lf")
+region_rect = Rect2(0.703102, 64.9395, 7.6366, 6.58327)
+region_filter_clip_enabled = true
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+position = Vector2(-14.6667, -5.33333)
+rotation = -0.860447
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("2_ld8lf")
+flip_h = true
+region_rect = Rect2(0.703102, 64.9395, 7.6366, 6.58327)
+region_filter_clip_enabled = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = -1.56207
+scale = Vector2(0.75, 0.75)
+shape = SubResource("CapsuleShape2D_uv3ot")
