@@ -47,6 +47,11 @@ Below are placeholder images representing key interfaces in PCS REALMS. (Place t
 
 Summary:
 -------------
-PCS REALMS: The Puurrty Relic Quest is an immersive blockchain adventure that fuses the swashbuckling spirit of pirates with modern digital culture. Explore vibrant lands, master crafty skills, and choose your role—whether as King Puurrty, a daring Puurrty Pirate, or another legendary persona—to shape a world where every relic, every quest, and every resource deepens the story and boosts token value. With a dual-token system that rewards long-term play and community-led governance, you’re set to enjoy real, lasting benefits while building your legacy.
+Summary:
+-------------
+PCS REALMS: The Puurrty Relic Quest is an immersive blockchain adventure that blends pirate legends with modern digital culture. Explore unique lands, develop your crafting skills, and choose your role—whether you're King Puurrty, a bold Puurrty Pirate, or another iconic character—to shape a world where every relic, quest, and resource enriches the story and boosts token value. With a dual-token system that rewards long-term play and community-driven governance, you'll gain lasting benefits while building your legacy.
+
+Join King Puurrty, unleash your inner pirate, and let every relic and crafted masterpiece contribute to your epic journey in PCS REALMS.
+
 
 Join King Puurrty, embrace your inner pirate, and let every relic and crafted masterpiece be a part of your epic journey in PCS REALMS.
